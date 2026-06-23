@@ -1,0 +1,1 @@
+# brokeyourbike-go-mockery-action
