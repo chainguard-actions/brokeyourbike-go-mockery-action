@@ -1,0 +1,31 @@
+name: Test basic mockery setup
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: setup-mockery
+        uses: .
+        with:
+          mockery-version: '2.42.0'
+      - name: Assert mockery is in PATH
+        run: |
+          echo "Checking mockery is available in PATH..."
+          if ! command -v mockery &> /dev/null; then
+            echo "FAIL: mockery not found in PATH"
+            exit 1
+          fi
+          echo "PASS: mockery found at $(command -v mockery)"
+      - name: Assert mockery version
+        run: |
+          echo "Checking mockery version..."
+          VERSION=$(mockery --version 2>&1 || true)
+          echo "actual version output: $VERSION"
+          if echo "$VERSION" | grep -q "2.42.0"; then
+            echo "PASS: mockery version matches 2.42.0"
+          else
+            echo "FAIL: expected version 2.42.0 in output: $VERSION"
+            exit 1
+          fi
