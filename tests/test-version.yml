@@ -1,0 +1,23 @@
+name: Test mockery version matches requested
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          mockery-version: '2.43.2'
+      - name: Assert mockery version is correct
+        run: |
+          EXPECTED="2.43.2"
+          ACTUAL=$(mockery --version 2>&1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+          echo "expected: $EXPECTED"
+          echo "actual:   $ACTUAL"
+          if [ "$ACTUAL" != "$EXPECTED" ]; then
+            echo "FAIL: expected version '$EXPECTED' but got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS: mockery version matches"
