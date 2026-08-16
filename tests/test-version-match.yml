@@ -1,0 +1,24 @@
+name: Test mockery version matches requested
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        name: Setup mockery v2.42.0
+        uses: .
+        with:
+          mockery-version: '2.42.0'
+      - name: Assert mockery version is 2.42.0
+        run: |
+          echo "Checking installed mockery version..."
+          VERSION_OUTPUT=$(mockery --version 2>&1)
+          echo "Version output: $VERSION_OUTPUT"
+          if echo "$VERSION_OUTPUT" | grep -q "2.42.0"; then
+            echo "PASS: mockery version 2.42.0 confirmed"
+          else
+            echo "FAIL: expected version 2.42.0 but got: $VERSION_OUTPUT"
+            exit 1
+          fi
