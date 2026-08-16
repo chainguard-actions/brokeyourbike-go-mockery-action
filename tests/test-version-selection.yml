@@ -1,0 +1,36 @@
+name: Test mockery version selection
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          mockery-version: '2.42.3'
+      - name: Assert mockery is executable
+        run: |
+          echo "Checking mockery binary is executable..."
+          if ! command -v mockery >/dev/null 2>&1; then
+            echo "FAIL: mockery not found on PATH"
+            exit 1
+          fi
+          MOCKERY_PATH="$(command -v mockery)"
+          echo "mockery path: $MOCKERY_PATH"
+          if [ ! -x "$MOCKERY_PATH" ]; then
+            echo "FAIL: mockery binary is not executable"
+            exit 1
+          fi
+          echo "PASS: mockery is executable at $MOCKERY_PATH"
+      - name: Assert correct version is installed
+        run: |
+          INSTALLED_VERSION="$(mockery --version 2>&1 || true)"
+          echo "installed version output: $INSTALLED_VERSION"
+          if echo "$INSTALLED_VERSION" | grep -q "2.42.3"; then
+            echo "PASS: version 2.42.3 found"
+          else
+            echo "FAIL: expected version 2.42.3 in output: $INSTALLED_VERSION"
+            exit 1
+          fi

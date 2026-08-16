@@ -6,25 +6,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - id: setup-mockery
+      - id: action
         uses: .
         with:
           mockery-version: '2.43.0'
-      - name: Assert mockery is in PATH
+      - name: Assert mockery is on PATH
         run: |
-          echo "Checking mockery binary..."
-          if ! command -v mockery &> /dev/null; then
-            echo "FAIL: mockery not found in PATH"
+          echo "Checking mockery is available on PATH..."
+          if ! command -v mockery >/dev/null 2>&1; then
+            echo "FAIL: mockery not found on PATH"
             exit 1
           fi
           echo "PASS: mockery found at $(command -v mockery)"
-      - name: Assert mockery version matches
+      - name: Assert mockery version matches requested
         run: |
-          VERSION=$(mockery --version 2>&1 || true)
-          echo "actual version output: $VERSION"
-          if echo "$VERSION" | grep -q "2.43.0"; then
-            echo "PASS: version matches 2.43.0"
+          INSTALLED_VERSION="$(mockery --version 2>&1 || true)"
+          echo "installed version output: $INSTALLED_VERSION"
+          if echo "$INSTALLED_VERSION" | grep -q "2.43.0"; then
+            echo "PASS: version 2.43.0 found"
           else
-            echo "FAIL: expected version 2.43.0 in output: $VERSION"
+            echo "FAIL: expected version 2.43.0 in output: $INSTALLED_VERSION"
             exit 1
           fi
