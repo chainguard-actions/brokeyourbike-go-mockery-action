@@ -1,0 +1,29 @@
+name: Test mockery version pinning
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          mockery-version: '2.42.3'
+      - name: Assert mockery is executable
+        run: |
+          echo "Checking mockery is executable..."
+          if ! mockery --version >/dev/null 2>&1; then
+            echo "FAIL: mockery --version failed"
+            exit 1
+          fi
+          echo "PASS: mockery is executable"
+      - name: Assert exact version 2.42.3 is installed
+        run: |
+          INSTALLED_VERSION=$(mockery --version 2>&1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+          echo "installed version: $INSTALLED_VERSION"
+          if [ "$INSTALLED_VERSION" != "2.42.3" ]; then
+            echo "FAIL: expected version 2.42.3 but got $INSTALLED_VERSION"
+            exit 1
+          fi
+          echo "PASS: correct version pinned"
