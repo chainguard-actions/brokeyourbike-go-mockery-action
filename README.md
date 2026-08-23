@@ -13,6 +13,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 | v0.2.0 | [`v0.2.0`](https://github.com/chainguard-actions/brokeyourbike-go-mockery-action/tree/v0.2.0) | [`167340a`](https://github.com/brokeyourbike/go-mockery-action/commit/167340a96b73d55b5d11a73ee642502ef9ab6cd6) |
 | v0.2.1 | [`v0.2.1`](https://github.com/chainguard-actions/brokeyourbike-go-mockery-action/tree/v0.2.1) | [`1a0160e`](https://github.com/brokeyourbike/go-mockery-action/commit/1a0160e36bba5c11852df093297cdb55b8d8444c) |
 | v0.2.2 | [`v0.2.2`](https://github.com/chainguard-actions/brokeyourbike-go-mockery-action/tree/v0.2.2) | [`1e10ac1`](https://github.com/brokeyourbike/go-mockery-action/commit/1e10ac1068b2410b26cccafa5c345a7f21bd758c) |
+| v0.2.3 | [`v0.2.3`](https://github.com/chainguard-actions/brokeyourbike-go-mockery-action/tree/v0.2.3) | [`299f0d6`](https://github.com/brokeyourbike/go-mockery-action/commit/299f0d65a56f262656760625be248bec8ed81dab) |
 
 ## Privacy
 
